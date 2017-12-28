@@ -23,7 +23,7 @@ WORKDIR /root/
 COPY sld[dmpw] /root/
 
 ENV THREADS 1
-ENV ADDRESS WALLET_ID
+ENV ADDRESS 
 
 ENTRYPOINT /root/sldd --mining-threads $THREADS --start-mining $ADDRESS
 
