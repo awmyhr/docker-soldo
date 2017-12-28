@@ -1,0 +1,38 @@
+# From template version: 1.0.0 (2017-03-03)
+# Author:    awmyhr
+# Created:   2017-12-27
+# Project:   docker-soldo
+# Copyright: 2017, awmyhr
+# License:   Apache-2.0
+FROM ubuntu:latest
+
+ENV container=docker \
+    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN apt-get update -qy \
+    && apt-get upgrade -qy
+
+RUN apt-get install -qy \
+        git \
+        cmake \
+        build-essential \
+        libboost-dev \
+        libboost-all-dev \
+    && cd /root \
+    && git clone https://github.com/monselice/sld.git sld \
+    && mkdir /root/sld/build \
+    && cd /root/sld/build \
+    && cmake .. \
+    && cd .. \
+    && make
+
+LABEL org.label-schema.name="soldo-build" \
+      org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
+      org.label-schema.version="0.1.0-alpha" \
+      org.label-schema.release="2017-12-27" \
+      org.label-schema.url="TODO: CHANGEME" \
+      org.label-schema.vcs-type="git" \
+      org.label-schema.vcs-url="TODO: CHANGEME" \
+      org.label-schema.summary="Throw away container to build Soldo commands." \
+      org.label-schema.description="Throw away container to build Soldo commands." \
+      org.label-schema.schema-version='1.0.0-rc.1'
