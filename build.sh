@@ -21,9 +21,10 @@ printf 'Building %s...\n' "${BUILD_NAME}"
 docker build -t "${BUILD_NAME}" . -f Dockerfile.build
 
 docker create --name extract "${BUILD_NAME}"
-docker cp extract:/root/build/release/src/sld[dmpw] .
-docker rm -f extract
-docker rmi "${BUILD_NAME}"
+docker cp extract:/root/sld/build/release/src/sldd .
+docker cp extract:/root/sld/build/release/src/sldm .
+docker cp extract:/root/sld/build/release/src/sldp .
+docker cp extract:/root/sld/build/release/src/sldw .
 
 #-------------------------------------------------------------------------------
 #-- Final Container
@@ -31,4 +32,10 @@ docker rmi "${BUILD_NAME}"
 printf 'Building %s...\n' "${FINAL_NAME}"
 
 docker build --no-cache -t "${FINAL_NAME}" .
+
+#-------------------------------------------------------------------------------
+#-- Clean up
+#-------------------------------------------------------------------------------
+docker rm -f extract
+docker rmi "${BUILD_NAME}"
 rm ./sld[dmpw]
