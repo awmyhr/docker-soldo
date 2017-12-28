@@ -22,10 +22,10 @@ WORKDIR /root/
 
 COPY sld[dmpw] /root/
 
-#-- For future use
-# ENTRYPOINT /root/sldd --mining-threads $THREADS --start-mining $ADDRESS
+ENV THREADS 1
+ENV ADDRESS WALLET_ID
 
-ENTRYPOINT /root/sldd
+ENTRYPOINT /root/sldd --mining-threads $THREADS --start-mining $ADDRESS
 
 LABEL org.label-schema.name="soldo-run" \
       org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
