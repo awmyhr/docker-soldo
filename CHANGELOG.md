@@ -10,6 +10,7 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 - Use Alpine instead of Ubuntu
 - Use non-root user in the container
 - Expose other sldd paramaters as env vars
+- Make the build script more roboust
 
 ---
 
