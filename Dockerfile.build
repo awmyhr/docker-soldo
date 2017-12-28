@@ -18,9 +18,10 @@ RUN apt-get install -qy \
         build-essential \
         libboost-dev \
         libboost-all-dev \
+    && cd /root \
     && git clone https://github.com/monselice/sld.git sld \
-    && mkdir sld/build \
-    && cd sld/build \
+    && mkdir /root/sld/build \
+    && cd /root/sld/build \
     && cmake .. \
     && cd .. \
     && make
