@@ -29,6 +29,11 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## [1.0.0] 2017-12-28
+### Changed
+- ADDRESS in run container set to '' to allow adding on commandline
+- README updated
+
 ## [1.0.0-rc] 2017-12-28
 ### Added
 - Dockerfile for build container
