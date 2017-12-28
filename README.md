@@ -33,7 +33,7 @@ I recommend running it daemonized, with a volume mount for the blockchain:
 
 You can then view the output of sldd via 'docker logs -f soldo'. You can attach
 to the process with 'docker attach soldo', then disconnect again with CTRL-p CTRL-q.
-Remember to add a ':z' to the volume if you're on a SELinux enabled system.
+It should be noted that any files created by this container will be root owned.
 
 If you want to also run wallet commands, then add a volume for your wallet file:
 
@@ -46,6 +46,18 @@ If you want to also run wallet commands, then add a volume for your wallet file:
 You can then run sldw like so:
 
     docker exec -it soldo /root/sldw --wallet-file=/root/.wallet
+
+By default this will run with only a single thread. You can change that by setting
+the THREADS variable:
+
+    docker run -itd --name soldo \
+        -v "$HOME/.sld:/root/.sld"  \
+        -v "/path/to/wallet:/root/.wallet" \
+        -e ADDRESS='WALLET_ADDRESS' \
+        -e THREADS=3 \
+        awmyhr/docker-soldo
+
+Remember to add a ':z' to the volume if you're on a SELinux enabled system.
 
 ## Maintaniers
 
