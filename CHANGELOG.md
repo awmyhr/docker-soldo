@@ -7,9 +7,8 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ---
 
 ## TODO
-- Use Alpine instead of Ubuntu
+- Use Alpine (or Debian) instead of Ubuntu
 - Use non-root user in the container
-- Expose other sldd paramaters as env vars
 - Make the build script more roboust
 - Make ARM version
 
@@ -25,11 +24,24 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-- Fix steps for mounting wallet volume in README.md
 
 ### Security
 
 ---
+
+## [2.0.0] 2017-12-29
+### Added
+- Volumes defined (/root/.sld and /wallet)
+- Exposed port 33711 (does 33712 need exposing as well?)
+
+### Changed
+- BREAKING CHANGE: the container now runs as the sldd command, you must provide
+  paramaters.
+- Streamlined layers in miner
+
+### Fixed
+- Fix steps for mounting wallet volume in README.md
+- Need to set --no-cache=true
 
 ## [1.1.0] 2017-12-28
 ### Changed
