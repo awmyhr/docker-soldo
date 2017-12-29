@@ -40,20 +40,20 @@ If you want to also run wallet commands, then add a volume for your wallet file:
 
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
-        -v "path/to/wallet:/root/.wallet" \
+        -v "/path/to/walletdir:/root/.wallet" \
         -e ADDRESS='WALLET_ADDRESS' \
         awmyhr/docker-soldo
 
 You can then run sldw like so:
 
-    docker exec -it soldo /root/sldw --wallet-file=/root/.wallet
+    docker exec -it soldo /root/sldw --wallet-file=/root/.wallet/walletfile
 
 By default this will run with only a single thread. You can change that by setting
 the THREADS variable:
 
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
-        -v "/path/to/wallet:/root/.wallet" \
+        -v "/path/to/walletdir:/root/.wallet" \
         -e ADDRESS='WALLET_ADDRESS' \
         -e THREADS=3 \
         awmyhr/docker-soldo

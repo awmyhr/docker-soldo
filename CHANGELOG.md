@@ -25,6 +25,7 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+- Fix steps for mounting wallet volume in README.md
 
 ### Security
 
