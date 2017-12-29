@@ -2,12 +2,12 @@
 #===============================================================================
 # Project:   docker-soldo
 # Author:    Myhr, Andy
-# Revised:   2017-12-27
+# Revised:   2017-12-28
 # Created:   2017-12-27
 # Copyright: 2017, awmyhr
 # License:   Apache-2.0
 #===============================================================================
-PROJECT='docker-soldo'
+PROJECT='soldo-miner'
 USER='awmyhr'
 
 BUILD_NAME="${USER}/${PROJECT}:build"
@@ -21,10 +21,7 @@ printf 'Building %s...\n' "${BUILD_NAME}"
 docker build -t "${BUILD_NAME}" . -f Dockerfile.build
 
 docker create --name extract "${BUILD_NAME}"
-docker cp extract:/root/sld/build/release/src/sldd .
-docker cp extract:/root/sld/build/release/src/sldm .
-docker cp extract:/root/sld/build/release/src/sldp .
-docker cp extract:/root/sld/build/release/src/sldw .
+docker cp extract:/build.tar .
 
 #-------------------------------------------------------------------------------
 #-- Final Container
@@ -38,4 +35,4 @@ docker build --no-cache -t "${FINAL_NAME}" .
 #-------------------------------------------------------------------------------
 docker rm -f extract
 docker rmi "${BUILD_NAME}"
-rm ./sld[dmpw]
+rm build.tar
