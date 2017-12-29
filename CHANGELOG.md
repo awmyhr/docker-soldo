@@ -32,6 +32,11 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 
 ---
 
+## [1.1.0] 2017-12-28
+### Changed
+- Build container now depends on awmyhr/builders:ubuntu
+- Name changed from 'docker-soldo' to 'soldo-miner'
+
 ## [1.0.0] 2017-12-28
 ### Changed
 - ADDRESS in run container set to '' to allow adding on commandline
