@@ -11,6 +11,7 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 - Use non-root user in the container
 - Expose other sldd paramaters as env vars
 - Make the build script more roboust
+- Make ARM version
 
 ---
 
@@ -18,6 +19,8 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+- Build container now depends on awmyhr/builders:ubuntu
+- Name changed from 'docker-soldo' to 'soldo-miner'
 
 ### Deprecated
 

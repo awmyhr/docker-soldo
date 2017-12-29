@@ -13,7 +13,8 @@
 ## Install
 
 Run build.sh. This will create a temporary container to build sld[dmwp]. Then it
-will build the actual run container, then will clean up after itself.
+will build the actual run container. Needed files are copied from the build to
+the run container. Finally it will clean up after itself.
 
 ## Usage
 
