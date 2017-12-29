@@ -2,16 +2,15 @@
 #===============================================================================
 # Project:   docker-soldo
 # Author:    Myhr, Andy
-# Revised:   2017-12-28
+# Revised:   2017-12-29
 # Created:   2017-12-27
 # Copyright: 2017, awmyhr
 # License:   Apache-2.0
 #===============================================================================
-PROJECT='soldo-miner'
-USER='awmyhr'
+PROJECT='awmyhr/soldo-miner'
 
-BUILD_NAME="${USER}/${PROJECT}:build"
-FINAL_NAME="${USER}/${PROJECT}:latest"
+BUILD_NAME="${PROJECT}:build"
+FINAL_NAME="${PROJECT}:latest"
 
 #-------------------------------------------------------------------------------
 #-- Build Container
@@ -28,7 +27,7 @@ docker cp extract:/build.tar .
 #-------------------------------------------------------------------------------
 printf 'Building %s...\n' "${FINAL_NAME}"
 
-docker build --no-cache -t "${FINAL_NAME}" .
+docker build --no-cache=true -t "${FINAL_NAME}" .
 
 #-------------------------------------------------------------------------------
 #-- Clean up
