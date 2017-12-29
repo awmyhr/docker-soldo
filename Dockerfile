@@ -6,38 +6,35 @@
 # License:   Apache-2.0
 FROM ubuntu:latest
 
-ENV container=docker \
-    PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV container=docker
 
 RUN apt-get update -qy \
-    && apt-get upgrade -qy
-
-RUN apt-get install -qy \
+    && apt-get install --no-install-recommends -qy \
         libboost-filesystem?.??.? \
         libboost-program-options?.??.? \
         libboost-system?.??.? \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD build.tar /usr/bin/
 
 WORKDIR /root/
 
-COPY build.tar /root/
+VOLUME ["/root/.sld", "/wallet"]
 
-RUN cd /root \
-    && tar -xf /root/build.tar \
-    && rm /root/build.tar
+EXPOSE 33711
 
-ENV THREADS 1
-ENV ADDRESS ''
+ENTRYPOINT ["/usr/bin/sldd"]
 
-ENTRYPOINT /root/sldd --mining-threads $THREADS --start-mining $ADDRESS
+CMD ["--help"]
 
 LABEL org.label-schema.name="soldo-miner" \
       org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
-      org.label-schema.version="1.1.0" \
-      org.label-schema.release="2017-12-28" \
-      org.label-schema.url="TODO: CHANGEME" \
+      org.label-schema.version="2.0.0" \
+      org.label-schema.release="2017-12-29" \
+      org.label-schema.url="https://hub.docker.com/r/awmyhr/soldo-miner" \
       org.label-schema.vcs-type="git" \
-      org.label-schema.vcs-url="TODO: CHANGEME" \
+      org.label-schema.vcs-url="https://github.com/awmyhr/docker-soldo" \
       org.label-schema.summary="For running the Soldo commands." \
       org.label-schema.description="For running the Soldo commands." \
       org.label-schema.schema-version='1.0.0-rc.1'

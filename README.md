@@ -18,47 +18,45 @@ the run container. Finally it will clean up after itself.
 
 ## Usage
 
-This can be run with a simple:
+Running this container as a binary will call sldd. With no params you'll get the
+standard help output:
 
-    docker run --rm -it awmyhr/docker-soldo [WALLET_ADDRESS]
+    docker run --rm -it awmyhr/docker-soldo 
 
-However, this will necessitate re-downloading the blockchain every time, amongst
-other problems.
+One can easily run sldd like normal:
+
+    docker run --rm -it awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
+
+However, this will necessitate re-downloading the blockchain every time.
 
 I recommend running it daemonized, with a volume mount for the blockchain:
 
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
-        -e ADDRESS='WALLET_ADDRESS' \
-        awmyhr/docker-soldo
+        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 You can then view the output of sldd via 'docker logs -f soldo'. You can attach
 to the process with 'docker attach soldo', then disconnect again with CTRL-p CTRL-q.
+The docker attach command is also a good way to issue the 'exit' command to sldd.
 It should be noted that any files created by this container will be root owned.
 
 If you want to also run wallet commands, then add a volume for your wallet file:
 
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
-        -v "path/to/wallet:/root/.wallet" \
-        -e ADDRESS='WALLET_ADDRESS' \
-        awmyhr/docker-soldo
+        -v "/path/to/walletdir:/wallet" \
+        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 You can then run sldw like so:
 
-    docker exec -it soldo /root/sldw --wallet-file=/root/.wallet
+    docker exec -it soldo /root/sldw --wallet-file=/wallet/walletfile
 
-By default this will run with only a single thread. You can change that by setting
-the THREADS variable:
+Remember to add a ':z' to the volume if you're on a SELinux enabled system:
 
     docker run -itd --name soldo \
-        -v "$HOME/.sld:/root/.sld"  \
-        -v "/path/to/wallet:/root/.wallet" \
-        -e ADDRESS='WALLET_ADDRESS' \
-        -e THREADS=3 \
-        awmyhr/docker-soldo
-
-Remember to add a ':z' to the volume if you're on a SELinux enabled system.
+        -v "$HOME/.sld:/root/.sld:z"  \
+        -v "/path/to/walletdir:/wallet:z" \
+        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 ## Maintaniers
 
