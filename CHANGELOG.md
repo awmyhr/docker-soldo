@@ -16,6 +16,11 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- build.sh now has flags to skip certain steps:
+  - Skip creating builder: --nobuilder
+  - Skip builder cleanup: --nobcup
+  - Skip creating runner: --norunner
+  - skip runner cleanup: --norcup
 
 ### Changed
 
@@ -24,6 +29,7 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
+- Creation of runner will not be attempted if build.tar is no found.
 
 ### Security
 
