@@ -10,20 +10,27 @@ WORKDIR /root/
 
 RUN cd /root \
     && git clone https://github.com/monselice/sld.git sld \
-    && mkdir -p /root/sld/build \
+    && mkdir -p /root/sld/build /build/bin \
     && cd /root/sld/build \
-    && cmake .. \
-    && cd /root/sld \
+    && cmake -DCMAKE_BUILD_TYPE=Release \
+             -DCMAKE_INSTALL_PREFIX=/build \
+             -DARCH=default \
+             -DCMAKE_C_FLAGS="-mtune=generic" \
+             -DCMAKE_CXX_FLAGS="-mtune=generic" .. \
     && make \
-    && cd /root/sld/build/release/src/ \
-    && tar -cf /build.tar sld[dmpw]
+    && cp /root/sld/build/src/sld[dmpw] /build/bin \
+    && strip -s /build/bin/* \
+    && cp --parents $(ldd /build/bin/* \
+        | tr -s ' ' | cut -d' ' -f3 | sort -u | grep lib) /build/ \
+    && cd /build \
+    && tar -cf /build.tar *
 
 CMD ["/bin/bash"]
 
 LABEL org.label-schema.name="soldo-build" \
       org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
-      org.label-schema.version="1.1.1" \
-      org.label-schema.release="2017-12-29" \
+      org.label-schema.version="1.3.0" \
+      org.label-schema.release="2018-01-22" \
       org.label-schema.url="https://hub.docker.com/r/awmyhr/soldo-miner" \
       org.label-schema.vcs-type="git" \
       org.label-schema.vcs-url="https://github.com/awmyhr/docker-soldo" \
