@@ -4,34 +4,31 @@
 # Project:   docker-soldo
 # Copyright: 2017, awmyhr
 # License:   Apache-2.0
-FROM ubuntu:latest
+FROM debian:stretch-slim
 
 ENV container=docker
 
-RUN apt-get update -qy \
-    && apt-get install --no-install-recommends -qy \
-        libboost-filesystem?.??.? \
-        libboost-program-options?.??.? \
-        libboost-system?.??.? \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+COPY build.tar /
 
-ADD build.tar /usr/bin/
+RUN cd / \
+    && tar --extract --skip-old-files -f build.tar \
+    && rm /build.tar
 
 WORKDIR /root/
 
 VOLUME ["/root/.sld", "/wallet"]
 
 EXPOSE 33711
+EXPOSE 33712
 
-ENTRYPOINT ["/usr/bin/sldd"]
+ENTRYPOINT ["/bin/sldd"]
 
 CMD ["--help"]
 
 LABEL org.label-schema.name="soldo-miner" \
       org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
-      org.label-schema.version="2.0.0" \
-      org.label-schema.release="2017-12-29" \
+      org.label-schema.version="2.4.0" \
+      org.label-schema.release="2018-01-21" \
       org.label-schema.url="https://hub.docker.com/r/awmyhr/soldo-miner" \
       org.label-schema.vcs-type="git" \
       org.label-schema.vcs-url="https://github.com/awmyhr/docker-soldo" \
