@@ -2,7 +2,7 @@
 #===============================================================================
 # Project:   docker-soldo
 # Author:    Myhr, Andy
-# Revised:   2017-12-30
+# Revised:   2018-02-06
 # Created:   2017-12-27
 # Copyright: 2017, awmyhr
 # License:   Apache-2.0
@@ -10,46 +10,33 @@
 PROJECT='awmyhr/soldo-miner'
 
 #-------------------------------------------------------------------------------
-#-- Builder Container
+#-- Build binaries
 #-------------------------------------------------------------------------------
-if [ "${*#*--nobuilder}" != "${*}" ]; then
-    printf 'Skipping builder.\n'
+if [ -r build.tar ]; then
+    printf 'Using existing build.tar. Remove it first if you want to rebuild.\n'
 else
-    BUILDER_NAME="${PROJECT}:build"
-    printf 'Building %s...\n' "${BUILDER_NAME}"
-
-    docker build -t "${BUILDER_NAME}" . -f Dockerfile.build
-
-    docker create --name extract "${BUILDER_NAME}"
-    docker cp extract:/build.tar .
-    docker rm -f extract
-
-    if [ "${*#*--nobcup}" != "${*}" ]; then
-        printf 'Skipping builder cleanup.\n'
-    else
-        printf 'Doing builder cleanup.\n'
-        docker rmi "${BUILDER_NAME}"
-    fi
+    tempdir=$(mktemp -d 2>/dev/null || mktemp -d -t 'tempdir')
+    docker run --rm -it \
+           -v "$(pwd):/source:Z" \
+           -v "${tempdir}:/build:Z" \
+           -u "$(id -ru):$(id -rg)" \
+           awmyhr/builders:ubuntu ./build-binaries.sh
+    rm -Rf "${tempdir}"
 fi
 
 #-------------------------------------------------------------------------------
-#-- Runner Container
+#-- Build image
 #-------------------------------------------------------------------------------
-if [ "${*#*--norunner}" != "${*}" ]; then
-    printf 'Skipping runner.\n'
-else
-    if [ -r build.tar ]; then
-        RUNNER_NAME="${PROJECT}:latest"
-        printf 'Building %s...\n' "${RUNNER_NAME}"
+if [ -r build.tar ]; then
+    IMAGE_NAME="${PROJECT}:latest"
+    IMAGE="$(docker images -q ${IMAGE_NAME})"
+    if [[ "${IMAGE}z" == z ]]; then
+        printf 'Building %s...\n' "${IMAGE_NAME}"
 
-        docker build --no-cache=true -t "${RUNNER_NAME}" .
-        if [ "${*#*--norcup}" != "${*}" ]; then
-            printf 'Skipping runner cleanup.\n'
-        else
-            printf 'Doing runner cleanup.\n'
-            rm build.tar
-        fi
+        docker build --no-cache=true -t "${IMAGE_NAME}" .
     else
-        printf 'ERROR: build.tar not found. Run builder.\n'
+        printf '%s exists. Remove it first if you want to rebuild.\n' "${IMAGE_NAME}"
     fi
+else
+    printf 'ERROR: build.tar not found. Somthing Bad(TM) happened.\n'
 fi
