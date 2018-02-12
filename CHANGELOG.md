@@ -7,20 +7,16 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ---
 
 ## TODO
-- Use Alpine (or Debian) instead of Ubuntu
+- Use Alpine (or something equally small) instead of Debian:slim
 - Use non-root user in the container
 - Make the build script more roboust
+- Make entrypoint script for a more 'user-friendly' interface
 - Make ARM version
 
 ---
 
 ## [Unreleased]
 ### Added
-- build.sh now has flags to skip certain steps:
-  - Skip creating builder: --nobuilder
-  - Skip builder cleanup: --nobcup
-  - Skip creating runner: --norunner
-  - skip runner cleanup: --norcup
 
 ### Changed
 
@@ -29,7 +25,28 @@ This project tries to adhere to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 ### Fixed
-- Creation of runner will not be attempted if build.tar is no found.
+
+### Security
+
+---
+
+## [2.1.0] 2018-02-12
+### Added
+
+### Changed
+- build.sh redesigned. Instead of creating a brand new container just for the
+  build, we now pass current directory to builder and run a build script.
+- New binaries will not be built if build.tar exists.
+- re-platformed to Debian:slim
+- pass flags to create a 'generic' (as gcc defines it) build
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Container will not be created if build.tar does not exist.
+- Wrong container name used in README
 
 ### Security
 
