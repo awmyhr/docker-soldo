@@ -21,11 +21,11 @@ the run container. Finally it will clean up after itself.
 Running this container as a binary will call sldd. With no params you'll get the
 standard help output:
 
-    docker run --rm -it awmyhr/docker-soldo 
+    docker run --rm -it awmyhr/soldo-miner 
 
 One can easily run sldd like normal:
 
-    docker run --rm -it awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
+    docker run --rm -it awmyhr/soldo-miner --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 However, this will necessitate re-downloading the blockchain every time.
 
@@ -33,7 +33,7 @@ I recommend running it daemonized, with a volume mount for the blockchain:
 
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
-        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
+        awmyhr/soldo-miner --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 You can then view the output of sldd via 'docker logs -f soldo'. You can attach
 to the process with 'docker attach soldo', then disconnect again with CTRL-p CTRL-q.
@@ -45,7 +45,7 @@ If you want to also run wallet commands, then add a volume for your wallet file:
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld"  \
         -v "/path/to/walletdir:/wallet" \
-        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
+        awmyhr/soldo-miner --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 You can then run sldw like so:
 
@@ -56,7 +56,7 @@ Remember to add a ':z' to the volume if you're on a SELinux enabled system:
     docker run -itd --name soldo \
         -v "$HOME/.sld:/root/.sld:z"  \
         -v "/path/to/walletdir:/wallet:z" \
-        awmyhr/docker-soldo --mining-threads 1 --start-mining [WALLET_ADDRESS]
+        awmyhr/soldo-miner --mining-threads 1 --start-mining [WALLET_ADDRESS]
 
 ## Maintaniers
 
