@@ -1,0 +1,10 @@
+build.sh
+build-binaries.sh
+CHANGELOG.md
+.dockerignore
+.git
+.gitignore
+LICENSE
+.projectrc
+README.md
+source/
