@@ -9,15 +9,17 @@ FROM debian:stretch-slim
 ENV container=docker
 
 ARG USER=nobody
-ARG GROUP=$USER
+ARG GROUP=nogroup
 
 COPY build.tar /
 
 RUN cd / \
     && tar --extract --skip-old-files -f build.tar \
     && rm /build.tar \
-    && mkdir /data /wallet \
-    && chown ${USER}:${GROUP} /data /wallet
+    && mkdir -p /data /wallet /nonexistent \
+    && ln -s /data /.sld \
+    && ln -s /data /nonexistent/.sld \
+    && chown ${USER}:${GROUP} /data /wallet /nonexistent
 
 USER ${USER}:${GROUP}
 
@@ -34,8 +36,8 @@ CMD ["--help"]
 
 LABEL org.label-schema.name="soldo-miner" \
       org.label-schema.vendor="awmyhr <awmyhr@gmail.com>" \
-      org.label-schema.version="3.0.0" \
-      org.label-schema.release="2018-02-12" \
+      org.label-schema.version="3.1.1" \
+      org.label-schema.release="2018-02-15" \
       org.label-schema.url="https://hub.docker.com/r/awmyhr/soldo-miner" \
       org.label-schema.vcs-type="git" \
       org.label-schema.vcs-url="https://github.com/awmyhr/docker-soldo" \
